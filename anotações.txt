@@ -1,0 +1,36 @@
+https://www.youtube.com/watch?v=s54q5uVaT5I&t=14s
+
+1-instalado o projeto laravel via composer 
+    composer create-project laravel/laravel:^8.0 CRUD-jquery-ajax-laravel-8
+
+2-criado via artisan, a model, migration e controller de 'Student'. Tudo no mesmo comando.
+    php artisan make:model Student -mc
+
+3-configurada a 'model' 'Student'. O objeto 'students' foi inserido na variável '$table'.
+    Foi criado a variável '$fillable' e dentro inserido as colunas desta model que podem ser trabalhadas. (convenção)
+
+4-configurada a 'migration' 'create_students_table', inserindo os dados e tipos de dados que irão ser montados na tabela. 
+    rodada a migration 
+        php artisan migrate
+
+5-criado o banco de dados deste projeto em 'phpmyadmin'
+    db = crud_jquery_alax_laravel-8
+
+6-configurado em 'web.php' a 'routes' 'index' de 'StudentController', usando o 'get'.
+
+7-em 'StudentController', foi criada a função 'index', a qual é chamada pela 'route' 'get'
+
+8-a pasta 'student' foi criada dentro da pasta 'views'. Em seguida, criado o arquivo 'index.blade.php'
+
+9-a pasta 'layouts' foi criada dentro da pasta 'views'. Em seguida, criado o arquivo 'app.blade.php'
+    dentro de 'app.blade.php', foi criado todo o template padrão de view, esta recebe por yield, o que é inserido em index.blade.php (esquema de template), 
+        esta também é quem recebe todas as bibliotecas, links e scripts. Enviando para 'index.blade.php' 
+
+10- configurado 'index.blade.php', recebendo componentes e bibliotecas de 'app.blade.php'
+
+11 - em 'index.blade.php', dentro de '@section('content'), foram inseridas as 'tags' HTML 
+    
+PAREI EM 1:12:00
+
+
+
