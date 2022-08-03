@@ -78,12 +78,23 @@ EDIT
 28-criada a função de 'click' que aciona 'update_student'. Cria uma variavel array 'data', que seus objetos
     recebem os dados contidos nos inputs do modal 'edit'.
 
-29-feito a ação via ajax, usando o PUT, 
+29-feito a ação via ajax, usando o PUT, baseada nas validações da parte de 'edit', tratanto os dados que 
+    chegam por response do ajax, e também as tags HTML e suas ações no decorrer do script
 
 30-criada a 'route', uando PUT, tendo como parametro 'id', que após ter os dados de edit em mãos, 
     os submete atualizados ou editados para o banco
 
-31-
+31-em StudentController, criada a função 'update' usando como parametro 'Response' e '$id' que faz a lógica 
+    para buscar os dados deste id, e enviando via 'response' por ajax put para view, se localizado, se não, 
+        retorna o erro (usado o mesmo padrão de 'edit' com algumas alterações)
+
+32-em index, foram criadas as funções de click delete, que contém acionamento de modal, captação de id,
+acionamento de ajax, usando DELETE, e utilizando ações padrão de success e uso de fetchstudent()
+
+33-criada a route DELETE, que usa o 'id' como parametro e aciona o método 'destroy'
+
+34-em StudentController, criado o método 'destroy' que utiliza 'id como parametro' e realiza ações de delete,
+    comunicando via response/ajax e apagando dados do banco, por solicitações via ajax que chegam da view
 
 
 

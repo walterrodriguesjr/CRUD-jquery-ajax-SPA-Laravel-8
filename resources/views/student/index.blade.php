@@ -82,6 +82,33 @@
     
     {{-- End-EditStudentModal--}}
 
+
+    {{-- DeleteStudentModal--}}
+    <div class="modal fade" id="DeleteStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Student</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    {{-- input que traz o id dos dados buscados está ocultado --}}
+                    <input type="hidden" id="delete_stud_id">
+
+                    <h4>Are you sure? want to delete this data?</h4>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary delete_student_btn">Yes Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{-- End-DeleteStudentModal--}}
+
     <div class="container py-5">
         <div class="row">
             <div class="col-md-12">
@@ -163,6 +190,62 @@
                 });
             }
 
+            /* DELETE */
+            /* função de 'click' do button com a class 'delete_student'. */
+            $(document).on('click', '.delete_student', function (e) {
+                e.preventDefault();  
+              
+            /* cria a var 'stud_id' que, recebe o 'val' da linha clicada. (o button tem como 'value' o 
+            item.id) desta linha */
+            var stud_id = $(this).val();
+
+            /* esta tag HTML recebe o dado contido na variavel stud_id */
+            $('#delete_stud_id').val(stud_id);
+
+            /* abre o modal delete */
+            $('#DeleteStudentModal').modal('show');
+            });
+
+
+             /* função de 'click' do button do modal delete com a class 'delete_student_btn'. */ 
+            $(document).on('click', '.delete_student_btn', function (e) {
+                e.preventDefault();
+            
+             /* cria a var 'stud_id' que, recebe o 'val' (id) da linha clicada. (o button tem como 'value' o 
+            item.id) desta linha */
+            var stud_id = $('#delete_stud_id').val();
+
+            /* TOKEN padrão do laravel para transportar dados via ajax */
+            $.ajaxSetup({
+                     headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                     }
+                });
+
+            $.ajax({
+                type: "DELETE",
+                url: "/delete-student/"+stud_id,
+                success: function (response) {
+
+                    /* a tag com id '#success_message' recebe a class alert alert-success */
+                    $('#success_message').addClass('alert alert-success');
+
+                     /* a tag com id '#success_message' recebe o texto recebido via response de sucesso*/
+                    $('#success_message').text(response.message);
+
+                    /* fecha o modal de confirmação de delete */
+                    $('#DeleteStudentModal').modal('hide');
+
+                    /* aciona a função 'fetchstudent' que atualiza a tabela com o que foi adicionado 
+                       mas sem dar refresh. (na parte de cima, há uma ação que limpa a tabela antes 
+                       de trazer os dados com a ação desta função, para não repetir dados) */
+                    fetchstudent();
+
+
+                }
+            });
+            });
+
             /* EDIT */
             /* função de 'click' do button com a class 'edit_student'. */
             $(document).on('click', '.edit_student', function (e) {
@@ -217,6 +300,9 @@
             $(document).on('click', '.update_student', function (e) {
                 e.preventDefault(); 
 
+                /* ação que, ao submeter o update pelo button 'update_student', seu texto altera */
+                $(this).text("Updating..");
+
             /* varial 'stud_id' recebe o dado contido na tag '#edit_stud_id' (id do objeto) */
                 var stud_id = $('#edit_stud_id').val();
 
@@ -230,6 +316,13 @@
                    'course' : $('#edit_course').val(),
                 }
 
+                /* TOKEN padrão do laravel para transportar dados via ajax */
+                $.ajaxSetup({
+                     headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                     }
+                });
+
                 $.ajax({
                     type: "PUT",                        /* ação */
                     url: "/update-student/"+stud_id,     /* caminho */
@@ -237,15 +330,84 @@
                     dataType: "json",                   /* tipo de dado gerado */
                     success: function (response) {
                         
+                        /* se a resposta for erro 400 */
+                        if(response.status == 400){
+
+                            
+                             /* ação que limpa a lista sempre antes de mostrar erros */
+                             $('#updateform_errList').html("");
+
+                            /* ação que adiciona a esta 'ul' a class de alert (css) */
+                            $('#updateform_errList').addClass('alert alert-danger');
+                                                    
+                            /* este 'each' gera um loop para listar os erros */
+                            /* os parametros 'status' e 'erros' vem do controller, da classe 'Validator' */
+                            $.each(response.errors, function (key, err_values) { 
+                            
+                                /* este append é gerado dentro do corpo do AddModal listando os erros */
+                                 $('#updateform_errList').append('<li>' + err_values +'</li>');
+                            });
+                            /* ação que retorna o texto do button para 'Update' */
+                            $('.update_student').text("Update");
+
+                        /* se não se */
+                        /* se a resposta for erro 404 */
+                        }else if(response.status == 404){
+                            
+                             /* esvazia a tag HTML que contém este ID */
+                             $('#updateform_errList').html("");
+
+                             /* a tag HTML que contem este ID recebe a class de alert success */
+                             $('#success_message').addClass('alert alert-success');
+                                                     
+                             /* a tag HTML que contem este ID recebe em seu text, via 
+                             response do controller, a 'message' de sucesso da ação
+                             em seguida envia para a tag HTML que contem este ID */
+                             $('#success_message').text(response.message);
+
+                             /* ação que retorna o texto do button para 'Update' */
+                            $('.update_student').text("Update");
+
+                        /* senão */
+                        }else{
+                            
+                             /* esvazia a tag HTML que contém este ID */
+                             $('#updateform_errList').html("");
+                             
+                             /* esvazia a tag HTML que contém este ID */
+                             $('#success_message').html("");
+
+                             /* a tag HTML que contem este ID recebe a class de alert success */
+                             $('#success_message').addClass('alert alert-success');
+                                                     
+                             /* a tag HTML que contem este ID recebe em seu text, via 
+                             response do controller, a 'message' de sucesso da ação
+                             em seguida envia para a tag HTML que contem este ID */
+                             $('#success_message').text(response.message);   
+
+                             /* esconde o modal que contem este ID */
+                             $('#EditStudentModal').modal('hide');
+
+                             /* ação que retorna o texto do button para 'Update' */
+                            $('.update_student').text("Update");
+
+                             /* aciona a função 'fetchstudent' que atualiza a tabela com o que foi adicionado 
+                            , mas sem dar refresh. (na parte de cima, há uma ação que limpa a tabela antes 
+                            de trazer os dados com a ação desta função, para não repetir dados) */
+                            fetchstudent();
+
+                        }
                     }
                 });
-
-                
             });
 
             /* função de 'click' que comunica com o 'button' de save em 'AddStudentModal' */
             $(document).on('click', '.add_student', function (e) {
                 e.preventDefault();
+
+                /* ação que, ao submeter o store pelo button 'update_student', seu texto altera */
+                $(this).text("Created..");
+
             
             /* a var 'data' cria um array em que seus objetos recebem os valores dos 
             respectivos inputs do modal após o click */
@@ -291,14 +453,15 @@
                                  $('#saveform_errList').append('<li>' + err_values +'</li>');
                             });
 
+                             /* ação que retorna o texto do button para 'Update' */
+                             $('.add_student').text("Save");
+
                             
                         /* se não */    
                         }else{
 
                             /* esvazia a tag HTML que contém este ID */
                             $('#saveform_errList').html("");
-
-                            console.log('teste');
 
                             /* a tag HTML que contem este ID recebe a class de alert success */
                             $('#success_message').addClass('alert alert-success');
@@ -313,6 +476,9 @@
 
                             /* limpa os campos dos inputs deste modal */
                             $('#AddStudentModal').find('input').val("");
+
+                            /* ação que retorna o texto do button para 'Update' */
+                            $('.add_student').text("Save");
 
                             /* aciona a função 'fetchstudent' que atualiza a tabela com o que foi adicionado 
                             , mas sem dar refresh. (na parte de cima, há uma ação que limpa a tabela antes 

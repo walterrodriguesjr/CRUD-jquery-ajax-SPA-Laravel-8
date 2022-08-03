@@ -18,6 +18,9 @@ Route::get('edit-student/{id}', [StudentController::class, 'edit']);
 /* rota que após ter os dados de edit em mãos, os submete atualizados ou editados para o banco */
 Route::put('update-student/{id}', [StudentController::class, 'update']);
 
+/* rota que após ter os dados de delete (id), utiliza o método 'destroy' apaga os mesmos do banco */
+Route::delete('delete-student/{id}', [StudentController::class, 'destroy']);
+
 Route::get('/', function () {
     return view('welcome');
 });
