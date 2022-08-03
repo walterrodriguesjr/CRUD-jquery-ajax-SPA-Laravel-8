@@ -75,4 +75,33 @@ class StudentController extends Controller
             ]);
         }
     }
+
+    /* função que busca os dados por 'id' */
+    public function edit($id){
+
+    /* a variavel '$student' recebe os dados da classe 'Student' usando o método 'find' buscando por 'id' */
+        $student = Student::find($id);
+
+        /* se os dados existirem */
+        if($student){
+
+            /* retorna usando o 'response' os dados em json, com resposta '200' e o ibjeto 'student' 
+            que é enviado para a view por ajax, com os dados da variável '$student' */
+           return response()->json([
+            'status'=>200,
+            'student'=>$student,
+           ]); 
+
+           /* se não */
+        }else{
+
+            /* retorna através do 'response' via json por ajax, que ouve status 404(erro) e a mensagem 
+            que não encontrou o dado */
+            return response()->json([
+             'status'=>404,
+             'message' => 'Student Not Found',
+            ]); 
+            
+        }
+    }
 }

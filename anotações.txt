@@ -39,6 +39,9 @@ CONFIGURAÇÃO DO SISTEMA E STORE
 14 - em index, foi criado um ajax do tipo post para submeter dados de /students 
 
 15 - criada a 'route' de post chamando o método 'store,' dos dados dos students 
+        em StudentController, criado método 'store', usando a classe 'Request' como parametro, 
+            criado a validação de back-end, em seguida, a condicional, que caso esteja tudo certo, 
+                os dados são recebidos via ajax post por 'request' e em seguida, salvos no banco
 
 16 - modal já salvando dados no banco 
 
@@ -53,7 +56,34 @@ CONFIGURAÇÃO DO SISTEMA E STORE
 21-criado em seguida a função 'each' que utiliza os dados enviados pelo back-end via 'response' e, através 
     de um loop, traz os dados direto na tabela, usando os objetos de 'response.students' dentro de 'item'
 
-22-
+22-criada ação que limpa a tabela antes da ação da função 'fetchstudent', para que não haja dados dobrados 
+
+EDIT
+
+23-criada a função de 'click' que aciona o modal 'EditStudentModal', atrável do button 'edit_student'
+
+24-criada toda parte de tags de HTML do 'modal' de edit e update. Foi usado o mesmo padrão do modal de 'Store'
+    sendo feito as adaptações para edit. Este modal usa os 'id' para realizar as ações. 
+
+25-criado o ajax usando GET, que busca o objeto pelo 'id' para serem editados
+    criada a lógica para que os inputs do modal 'edit' recebam via response do ajax, os dados que já estão 
+        salvos no banco, para posterior editação e update
+
+26-criada a 'route' busca os dados via get usando o 'id', usando a função 'edit'
+
+27-em StudentController, criada a função 'edit' usando como parametro o '$id' que faz a lógica 
+    para buscar os dados deste id, e enviando via 'response' por ajax para view, se localizado, se não, 
+        retorna o erro 
+
+28-criada a função de 'click' que aciona 'update_student'. Cria uma variavel array 'data', que seus objetos
+    recebem os dados contidos nos inputs do modal 'edit'.
+
+29-feito a ação via ajax, usando o PUT, 
+
+30-criada a 'route', uando PUT, tendo como parametro 'id', que após ter os dados de edit em mãos, 
+    os submete atualizados ou editados para o banco
+
+31-
 
 
 

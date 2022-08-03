@@ -12,6 +12,12 @@ Route::get('fetch-students', [StudentController::class, 'fetchstudent']);
 /* rota que chama a função 'store', que salva dados no banco */
 Route::post('students', [StudentController::class, 'store']);
 
+/* rota que busca os dados do objeto utilizando o 'id' para posteriormente serem editados */
+Route::get('edit-student/{id}', [StudentController::class, 'edit']);
+
+/* rota que após ter os dados de edit em mãos, os submete atualizados ou editados para o banco */
+Route::put('update-student/{id}', [StudentController::class, 'update']);
+
 Route::get('/', function () {
     return view('welcome');
 });
