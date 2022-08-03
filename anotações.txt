@@ -30,7 +30,15 @@ https://www.youtube.com/watch?v=s54q5uVaT5I&t=14s
 
 11 - em 'index.blade.php', dentro de '@section('content'), foram inseridas as 'tags' HTML 
     
-PAREI EM 1:12:00
+12 - nos scripts de 'index.blade.php', criado a var 'data', um array que recebe os dados do input 
+
+13 - inserido e, 'index' o token padrão do laravel para trafegar dados via ajax
+
+14- em index, foi criado um ajax do tipo post para submeter dados de /students 
+
+15-criada a 'route' de post chamando o método 'store,' dos dados dos students 
+
+16- PAREI EM 25 MINUTOS
 
 
 
