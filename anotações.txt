@@ -38,7 +38,7 @@ https://www.youtube.com/watch?v=s54q5uVaT5I&t=14s
 
 15-criada a 'route' de post chamando o método 'store,' dos dados dos students 
 
-16- PAREI EM 25 MINUTOS
+16- PAREI EM 27 MINUTOS
 
 
 

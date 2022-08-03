@@ -91,7 +91,7 @@
                 $.ajax({
                     type: "POST",      /* ação */
                     url: "/students",  /* caminho */
-                    data: "data",      /* variavel utilizada */
+                    data: data,      /* variavel utilizada */ /* BUB RESOLVIDO- data estava entre aspas duplas */
                     dataType: "json",  /* tipo de dado gerado */
 
                     /* se a ação do ajax for bem sucedida, prossegue ocm esta resposta */
