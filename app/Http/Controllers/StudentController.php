@@ -15,6 +15,20 @@ class StudentController extends Controller
         return view('student.index');
     }
 
+    /* método que chama a função 'fetchstudent', cria uma variavel para recebel a classe 'Student', e utiliza 
+    seu método 'all()' para trazer todos os dados do banco para a variável em questão */
+    public function fetchstudent()
+    {
+        $students = Student::all();
+        
+        /* retorna usando o método 'reponse()', em formato json, o response envia pelo ajax os dados,
+        o parametro 'students' do response(), recebe os dados contidos na var '$students', que recebeu 
+        todos os dados da classe 'Student' */
+        return response()->json([
+            'students'=>$students,
+        ]);
+    }
+
 
     /* método que executa a função 'store' */
     public function store(Request $request)
@@ -23,27 +37,27 @@ class StudentController extends Controller
         a todos os dados listados abaixo */
         $validator = Validator::make($request->all(), [
 
-       /* parametro */   /* requisitos da validação */
-            'name'=>'required|max:191',
-            'email'=>'required|email|max:191',
-            'phone'=>'required|max:191',
-            'course'=>'required|max:191',
+            /* parametro */   /* requisitos da validação */
+            'name' => 'required|max:191',
+            'email' => 'required|email|max:191',
+            'phone' => 'required|max:191',
+            'course' => 'required|max:191',
         ]);
 
         /* se a validação falhar */
-        if($validator->fails()){
-        /* retorna uma resposta ao usuário em formato de json, usando os parametros abaixo */
+        if ($validator->fails()) {
+            /* retorna uma resposta ao usuário em formato de json, usando os parametros abaixo */
             return response()->json([
-                'status'=>400,
-                'errors'=>$validator->messages()
+                'status' => 400,
+                'errors' => $validator->messages()
             ]);
 
-        /* se não */    
-        }else{
-        /* criada a var '$student' que recebe a classe 'Student' e seus objetos*/
+            /* se não */
+        } else {
+            /* criada a var '$student' que recebe a classe 'Student' e seus objetos*/
             $student = new Student;
 
-       /* var */ /* objeto */ /* recebe via ajax do input com o respectivo name */
+            /* var */ /* objeto */ /* recebe via ajax do input com o respectivo name */
             $student->name = $request->input('name');
             $student->email = $request->input('email');
             $student->phone = $request->input('phone');
@@ -56,8 +70,8 @@ class StudentController extends Controller
             para serem usados na 'view' */
             return response()->json([
                 /* status '200' é que deu certo a ação */
-                'status'=>200,
-                'message'=>'Student Added Successfully',   
+                'status' => 200,
+                'message' => 'Student Added Successfully',
             ]);
         }
     }

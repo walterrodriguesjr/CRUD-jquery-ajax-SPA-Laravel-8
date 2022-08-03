@@ -55,7 +55,22 @@
                         </h4>
                     </div>
                     <div class="card-body">
-
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>E-mail</th>
+                                    <th>Phone</th>
+                                    <th>Course</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -67,11 +82,44 @@
     
     <script>
         $(document).ready(function () {
-            /* comunica com o 'button' de save em 'AddStudentModal' */
+
+            /* chama a função criada abaixo para trazer os respectivos dados */
+            fetchstudent();
+
+            /* cria a função de buscar dados já salvos no banco e trazer para o usuário */
+            function fetchstudent(){
+
+            /* a função fetchstudent() realiza um ajax de GET, trazendo os dados do banco para uso */
+                $.ajax({
+                    type: "GET",                /* ação */
+                    url: "/fetch-students",     /* caminho */
+                    dataType: "json",           /* tipo de dado gerado */
+                    /* o 'response traz os dados enviados pelo back-end' */
+                    success: function (response) {
+                        /* console.log(response.students); */
+            
+            /* criado a função 'each' que utiliza os dados enviados pelo back-end via 'response' e, através 
+    de um loop, traz os dados direto na tabela, usando os objetos de 'response.students' dentro de 'item' */
+                        $.each(response.students, function (key, item) { 
+                             $('tbody').append('<tr>\
+                                <td>'+item.id+'</td>\
+                                <td>'+item.name+'</td>\
+                                <td>'+item.email+'</td>\
+                                <td>'+item.phone+'</td>\
+                                <td>'+item.course+'</td>\
+                                <td><button type="button" value="'+item.id+'" class="edit_student btn btn-primary btn-sm">Edit</button></td>\
+                                <td><button type="button" value="'+item.id+'" class="delete_student btn btn-danger btn-sm">Delete</button></td>\
+                                </tr>');
+                        });
+                    }
+                });
+            }
+
+            /* função de 'click' que comunica com o 'button' de save em 'AddStudentModal' */
             $(document).on('click', '.add_student', function (e) {
                 e.preventDefault();
             
-            /* a var 'data' cria um array, que recebe seus parametros recebem os valores dos 
+            /* a var 'data' cria um array em que seus objetos recebem os valores dos 
             respectivos inputs do modal após o click */
                 var data = {
                  /* objeto   -  input do modal  */
@@ -94,11 +142,9 @@
                     data: data,      /* variavel utilizada */ /* BUB RESOLVIDO- data estava entre aspas duplas */
                     dataType: "json",  /* tipo de dado gerado */
 
-                    /* se a ação do ajax for bem sucedida, prossegue ocm esta resposta */
+                    /* se a ação do ajax for bem sucedida, prossegue com esta resposta */
                     success: function (response) {
 
-                        
-                        
                         /* caso ocorra erro no trafego dos dados */
                         if(response.status == 400){
 
@@ -117,7 +163,6 @@
                             });
 
                             
-
                         /* se não */    
                         }else{
 
@@ -139,8 +184,6 @@
 
                             /* limpa os campos dos inputs deste modal */
                             $('#AddStudentModal').find('input').val("");
-
-                            
                         }
                     }
                 });
