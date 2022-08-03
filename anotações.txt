@@ -1,4 +1,7 @@
+CRUD BÁSICO
+
 https://www.youtube.com/watch?v=s54q5uVaT5I&t=14s
+
 
 CONFIGURAÇÃO DO SISTEMA E STORE
 
@@ -95,6 +98,12 @@ acionamento de ajax, usando DELETE, e utilizando ações padrão de success e us
 
 34-em StudentController, criado o método 'destroy' que utiliza 'id como parametro' e realiza ações de delete,
     comunicando via response/ajax e apagando dados do banco, por solicitações via ajax que chegam da view
+
+
+INSERIR PARTE DE UPLOAD DE IMAGE
+
+https://www.youtube.com/watch?v=4glzMBy1RSk
+
 
 
 
