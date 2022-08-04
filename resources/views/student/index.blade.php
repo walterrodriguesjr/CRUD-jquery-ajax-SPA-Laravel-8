@@ -34,7 +34,7 @@
                         <input type="text" class="course form-control">
                     </div>
                     <div class="form-group mb-3">
-                        <label for="">Image</label>
+                        <label for="profile_image">Image</label>
                         <input type="file" name="profile_image" class="profile_image form-control">
                     </div>
                 </form>

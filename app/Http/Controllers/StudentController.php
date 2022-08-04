@@ -44,6 +44,8 @@ class StudentController extends Controller
             'email' => 'required|email|max:191',
             'phone' => 'required|max:191',
             'course' => 'required|max:191',
+            
+            
         ]);
 
         /* se a validação falhar */
@@ -65,18 +67,19 @@ class StudentController extends Controller
             $student->phone = $request->input('phone');
             $student->course = $request->input('course');
 
-            if($request->hasfile('profile_image'))
+            if($request->hasfile('profile_image') && $request->file('profile_image')->isValid())
         {
-            $file = $request->file('profile_image');
-            $extention = $file->getClientOriginalExtension();
-            $filename = time().'.'.$extention;
-            $file->move('uploads/students/', $filename);
-            $student->profile_image = $filename;
+            $requestImage = $request->profile_image;
+            $extension = $requestImage->extension();
+            $imageName = md5($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
+            $requestImage->move(public_path('img/students'), $imageName);
+
+            $student->profile_image = $imageName;
 
              }
+             $student->save();
 
             /* var '$student' executa o método 'save() para salvar os dados no banco' */
-            $student->save();
 
             /* retorna para o ajax que efetuou o post, no formato json, os referidos dados
             para serem usados na 'view' */
