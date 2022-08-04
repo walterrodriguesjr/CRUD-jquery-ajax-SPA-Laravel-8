@@ -14,5 +14,6 @@ class Student extends Model
         'email',
         'phone',
         'course',
+        'profile_image',
     ];
 }

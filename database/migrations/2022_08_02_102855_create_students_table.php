@@ -19,6 +19,7 @@ class CreateStudentsTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('course');
+            $table->string('profile_image')->nullable();
             $table->timestamps();
         });
     }

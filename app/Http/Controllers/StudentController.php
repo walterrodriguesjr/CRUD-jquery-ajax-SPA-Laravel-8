@@ -65,6 +65,16 @@ class StudentController extends Controller
             $student->phone = $request->input('phone');
             $student->course = $request->input('course');
 
+            if($request->hasfile('profile_image'))
+        {
+            $file = $request->file('profile_image');
+            $extention = $file->getClientOriginalExtension();
+            $filename = time().'.'.$extention;
+            $file->move('uploads/students/', $filename);
+            $student->profile_image = $filename;
+
+             }
+
             /* var '$student' executa o método 'save() para salvar os dados no banco' */
             $student->save();
 

@@ -11,7 +11,11 @@
                 </div>
                 <div class="modal-body">
 
+                    <form action="{{ url('students') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+
                     <ul id="saveform_errList"></ul>
+
 
                     <div class="form-group mb-3">
                         <label for="">Name</label>
@@ -29,6 +33,11 @@
                         <label for="">Course</label>
                         <input type="text" class="course form-control">
                     </div>
+                    <div class="form-group mb-3">
+                        <label for="">Image</label>
+                        <input type="file" name="profile_image" class="profile_image form-control">
+                    </div>
+                </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -70,6 +79,10 @@
                     <div class="form-group mb-3">
                         <label for="">Course</label>
                         <input type="text" id="edit_course" class="course form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="">Image</label>
+                        <input type="file" id="edit_image" class="image form-control">
                     </div>
                 </div>
                 <div class="modal-footer">

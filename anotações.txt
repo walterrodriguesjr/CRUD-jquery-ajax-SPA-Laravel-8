@@ -106,6 +106,14 @@ https://www.youtube.com/watch?v=4glzMBy1RSk
 
 1-iniciando inserção de upload de image (branch desenv)
 
+2-na modal 'Student' foi inserido a coluna 'profile_image'
+
+3-na migration 'create_students_table', inserido 'profile_image'
+
+4-inserido a tag HTML de 'image' nos modais de add e edit
+
+5-em StudentController adaptado o método store para enviar 'image'
+
 
 
 
