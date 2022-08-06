@@ -35,6 +35,8 @@ class StudentController extends Controller
     /* método que executa a função 'store' */
     public function store(Request $request)
     {
+       /*  print_r($_POST);
+        print_r($_FILES); */
         /* a variável '$validator' recebe a classe 'Validator' e os métodos dela, que faz requisição
         a todos os dados listados abaixo */
         $validator = Validator::make($request->all(), [
@@ -44,6 +46,7 @@ class StudentController extends Controller
             'email' => 'required|email|max:191',
             'phone' => 'required|max:191',
             'course' => 'required|max:191',
+            'profile_image' => 'required',
             
             
         ]);
@@ -66,17 +69,17 @@ class StudentController extends Controller
             $student->email = $request->input('email');
             $student->phone = $request->input('phone');
             $student->course = $request->input('course');
+            
 
-            if($request->hasfile('profile_image') && $request->file('profile_image')->isValid())
-        {
-            $requestImage = $request->profile_image;
-            $extension = $requestImage->extension();
-            $imageName = md5($requestImage->getClientOriginalName() . strtotime("now")) . "." . $extension;
-            $requestImage->move(public_path('img/students'), $imageName);
+            $file = $request->file('profile_image');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/images', $fileName);
+            $student->profile_image = $fileName;
 
-            $student->profile_image = $imageName;
+            
 
-             }
+             
+            
              $student->save();
 
             /* var '$student' executa o método 'save() para salvar os dados no banco' */

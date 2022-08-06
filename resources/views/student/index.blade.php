@@ -11,7 +11,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <form action="{{ url('students') }}" method="post" enctype="multipart/form-data">
+                    <form action="students" method="post" id="addForm" enctype="multipart/form-data">
                         @csrf
 
                     <ul id="saveform_errList"></ul>
@@ -19,30 +19,30 @@
 
                     <div class="form-group mb-3">
                         <label for="">Name</label>
-                        <input type="text" class="name form-control">
+                        <input type="text" class="name form-control" name="name">
                     </div>
                     <div class="form-group mb-3">
                         <label for="">E-mail</label>
-                        <input type="text" class="email form-control">
+                        <input type="text" class="email form-control" name="email">
                     </div>
                     <div class="form-group mb-3">
                         <label for="">Phone</label>
-                        <input type="text" class="phone form-control">
+                        <input type="text" class="phone form-control" name="phone">
                     </div>
                     <div class="form-group mb-3">
                         <label for="">Course</label>
-                        <input type="text" class="course form-control">
+                        <input type="text" class="course form-control" name="course">
                     </div>
                     <div class="form-group mb-3">
                         <label for="profile_image">Image</label>
                         <input type="file" name="profile_image" class="profile_image form-control">
                     </div>
-                </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary add_student">Save</button>
+                    <button type="submit" class="btn btn-primary add_student">Save</button>
                 </div>
+            </form>
             </div>
         </div>
     </div>
@@ -415,22 +415,17 @@
             });
 
             /* função de 'click' que comunica com o 'button' de save em 'AddStudentModal' */
-            $(document).on('click', '.add_student', function (e) {
+            $('#addForm').submit(function (e) {
                 e.preventDefault();
 
                 /* ação que, ao submeter o store pelo button 'update_student', seu texto altera */
-                $(this).text("Created..");
+                /* $(this).text("Created.."); */
 
             
             /* a var 'data' cria um array em que seus objetos recebem os valores dos 
             respectivos inputs do modal após o click */
-                var data = {
-                 /* objeto   -  input do modal  */
-                    'name': $('.name').val(), 
-                    'email': $('.email').val(),
-                    'phone': $('.phone').val(),
-                    'course': $('.course').val(),
-                }
+                const fd = new FormData(this);
+         
 
                 /* TOKEN padrão do laravel para transportar dados via ajax */
                 $.ajaxSetup({
@@ -443,12 +438,15 @@
                 $.ajax({
                     type: "POST",      /* ação */
                     url: "/students",  /* caminho */
-                    data: data,      /* variavel utilizada */ /* BUG RESOLVIDO- data estava entre aspas duplas */
-                    dataType: "json",  /* tipo de dado gerado */
+                    data: fd,      /* variavel utilizada */ /* BUG RESOLVIDO- data estava entre aspas duplas */
+                    cache:false,
+                    processData: false,
+                    contentType: false,
+                
 
                     /* se a ação do ajax for bem sucedida, prossegue com esta resposta */
                     success: function (response) {
-
+                        console.log(response);
                         /* caso ocorra erro no trafego dos dados */
                         if(response.status == 400){
 
