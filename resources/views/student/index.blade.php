@@ -146,6 +146,7 @@
                                     <th>E-mail</th>
                                     <th>Phone</th>
                                     <th>Course</th>
+                                    <th>Image</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>
@@ -195,13 +196,15 @@
                                 <td>'+item.email+'</td>\
                                 <td>'+item.phone+'</td>\
                                 <td>'+item.course+'</td>\
+                                <td><img src="{{ asset('storage/app/public/images/'.'+item.profile_image+') }}" width="70px" height="70px" alt="Image"></td>\
                                 <td><button type="button" value="'+item.id+'" class="edit_student btn btn-primary btn-sm">Edit</button></td>\
                                 <td><button type="button" value="'+item.id+'" class="delete_student btn btn-danger btn-sm">Delete</button></td>\
-                                </tr>');
+                                </tr>')
                         });
                     }
                 });
             }
+            
 
             /* DELETE */
             /* função de 'click' do button com a class 'delete_student'. */
@@ -414,19 +417,17 @@
                 });
             });
 
-            /* função de 'click' que comunica com o 'button' de save em 'AddStudentModal' */
+            /* função de 'submit' que comunica com o 'button' de save em 'AddStudentModal' */
             $('#addForm').submit(function (e) {
                 e.preventDefault();
 
                 /* ação que, ao submeter o store pelo button 'update_student', seu texto altera */
                 /* $(this).text("Created.."); */
 
-            
-            /* a var 'data' cria um array em que seus objetos recebem os valores dos 
-            respectivos inputs do modal após o click */
+            /* a var 'fd' cria um array em que seus objetos recebem os valores dos 
+            respectivos inputs do modal gerando um objeto 'FormData' após o submit */
                 const fd = new FormData(this);
          
-
                 /* TOKEN padrão do laravel para transportar dados via ajax */
                 $.ajaxSetup({
                      headers: {
@@ -440,13 +441,13 @@
                     url: "/students",  /* caminho */
                     data: fd,      /* variavel utilizada */ /* BUG RESOLVIDO- data estava entre aspas duplas */
                     cache:false,
-                    processData: false,
-                    contentType: false,
+                    processData: false, /* parametro para enviar imagem */ 
+                    contentType: false, /* parametro para enviar imagem */ 
                 
 
                     /* se a ação do ajax for bem sucedida, prossegue com esta resposta */
                     success: function (response) {
-                        console.log(response);
+                     
                         /* caso ocorra erro no trafego dos dados */
                         if(response.status == 400){
 
@@ -497,8 +498,7 @@
                             fetchstudent();
                         }
                     }
-                });
-                
+                });    
             });
         });
     </script>

@@ -30,7 +30,6 @@ class StudentController extends Controller
         ]);
     }
 
-
     /* POST (STORE) */
     /* método que executa a função 'store' */
     public function store(Request $request)
@@ -47,7 +46,6 @@ class StudentController extends Controller
             'phone' => 'required|max:191',
             'course' => 'required|max:191',
             'profile_image' => 'required',
-            
             
         ]);
 
@@ -70,19 +68,17 @@ class StudentController extends Controller
             $student->phone = $request->input('phone');
             $student->course = $request->input('course');
             
+            /* se o array de dados enviados pelo ajax, conter um 'file'. executa */
+            if($request->hasFile('profile_image')){
 
             $file = $request->file('profile_image');
             $fileName = time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/images', $fileName);
             $student->profile_image = $fileName;
-
-            
-
-             
-            
+            }
+          
+             /* var '$student' executa o método 'save() para salvar os dados no banco' */
              $student->save();
-
-            /* var '$student' executa o método 'save() para salvar os dados no banco' */
 
             /* retorna para o ajax que efetuou o post, no formato json, os referidos dados
             para serem usados na 'view' */
