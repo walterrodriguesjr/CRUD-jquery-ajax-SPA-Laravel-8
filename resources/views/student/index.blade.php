@@ -152,7 +152,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                           
                             </tbody>
                         </table>
                     </div>
@@ -196,7 +196,7 @@
                                 <td>'+item.email+'</td>\
                                 <td>'+item.phone+'</td>\
                                 <td>'+item.course+'</td>\
-                                <td><img src="{{ asset('storage/app/public/images/'.'+item.profile_image+') }}" width="70px" height="70px" alt="Image"></td>\
+                                <td><img src="public/images/'+item.profile_image+'" width="50px" height="50px" alt="Image"></td>\
                                 <td><button type="button" value="'+item.id+'" class="edit_student btn btn-primary btn-sm">Edit</button></td>\
                                 <td><button type="button" value="'+item.id+'" class="delete_student btn btn-danger btn-sm">Delete</button></td>\
                                 </tr>')
@@ -205,7 +205,6 @@
                 });
             }
             
-
             /* DELETE */
             /* função de 'click' do button com a class 'delete_student'. */
             $(document).on('click', '.delete_student', function (e) {
