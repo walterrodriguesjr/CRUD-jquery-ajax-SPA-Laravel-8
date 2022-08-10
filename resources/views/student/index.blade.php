@@ -131,10 +131,10 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h4>Students Data
+                        <h4>Test
                             {{-- responsável por abrir o modal, o 'data-bs-target="#AddStudentModal"' comunica com o 'id' principal do 'modal' --}}
                             <a href="#" data-bs-toggle="modal" data-bs-target="#AddStudentModal"
-                                class="btn btn-primary float-end btn-sm">Add Student</a>
+                                class="btn btn-primary float-end btn-sm">Add</a>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -160,6 +160,7 @@
             </div>
         </div>
     </div>
+    
 @endsection
 
 @section('scripts')
@@ -196,10 +197,11 @@
                                 <td>'+item.email+'</td>\
                                 <td>'+item.phone+'</td>\
                                 <td>'+item.course+'</td>\
-                                <td><img src="public/images/'+item.profile_image+'" width="50px" height="50px" alt="Image"></td>\
+                                <td><img src="" width="50px" height="50px" alt="Image" id="image'+item.id+'"></td>\
                                 <td><button type="button" value="'+item.id+'" class="edit_student btn btn-primary btn-sm">Edit</button></td>\
                                 <td><button type="button" value="'+item.id+'" class="delete_student btn btn-danger btn-sm">Delete</button></td>\
-                                </tr>')
+                                </tr>');
+                             $('#image'+item.id).attr('src', "{{asset('storage/images/')}}/"+item.profile_image);
                         });
                     }
                 });
